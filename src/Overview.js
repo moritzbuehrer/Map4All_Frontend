@@ -1,47 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Overview.css';
-import mapboxgl from 'mapbox-gl'
+//import mapboxgl from 'mapbox-gl'
+import Map from './Map';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoibWJ1ZWhyZXIiLCJhIjoiY2s4Mjk5cGNxMGdwMTNmcnd4NjhvcnQ2dCJ9.ut6-Z7fPqms5_KwvVoFctw';
+const accessToken = 'pk.eyJ1IjoibWJ1ZWhyZXIiLCJhIjoiY2s4Mjk5cGNxMGdwMTNmcnd4NjhvcnQ2dCJ9.ut6-Z7fPqms5_KwvVoFctw';
 
-class Overview extends React.Component {
+export default function Overview() {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            lng: 5,
-            lat: 34,
-            zoom: 2
-        };
-    }
+    const [viewport, setViewport] = useState({
+        latitude: 50.934311,
+        longitude: 11.432919,
+        width: "100vw",
+        height: "100vh",
+        zoom: 10
 
-    componentDidMount() {
-        const map = new mapboxgl.Map({
-            container: this.mapContainer,
-            style: 'mapbox://styles/mbuehrer/ck82askla0a6y1jqkzwvjanm7',
-            center: [this.state.lng, this.state.lat],
-            zoom: this.state.zoom
-        });
+    })
 
-        map.on('move', () => {
-            this.setState({
-                lng: map.getCenter().lng.toFixed(4),
-                lat: map.getCenter().lat.toFixed(4),
-                zoom: map.getZoom().toFixed(2)
-            });
-        });
-    }
+    return (
+        <div>
+            <Map/>
+        </div>
+    )
 
-    render() {
-        return (
-            <div>
-                <div className='sidebarStyle'>
-                    <div>Longitude: {this.state.lng} | Latitude: {this.state.lat} | Zoom: {this.state.zoom}</div>
-                </div>
-                <div ref={el => this.mapContainer = el} className='mapContainer' />
-            </div>
-        )
-    }
 }
 
-export default Overview;
+
