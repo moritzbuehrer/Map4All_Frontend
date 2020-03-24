@@ -9,7 +9,7 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <ConfigProvider locale={deDE}>
-    <App />
+      <App />
   </ConfigProvider>
   ,
   document.getElementById('root')

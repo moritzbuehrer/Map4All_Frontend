@@ -1,8 +1,8 @@
 import React from 'react';
-import './Overview.css';
-import Map from './Map';
+import { Card } from 'antd';
+import './Content.css';
 
-class Overview extends React.Component {
+class Content extends React.Component {
 
     constructor(props) {
         super(props);
@@ -11,15 +11,15 @@ class Overview extends React.Component {
         }
     }
 
-
     render() {
         return (
             <div>
-                <Map className="InsideContent" />
+                <Card style={{ width: 300 }}>
+                </Card>
             </div>
         )
     }
 
 }
 
-export default Overview;
+export default Content;
