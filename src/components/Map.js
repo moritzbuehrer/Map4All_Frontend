@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Input } from 'antd';
 import './Map.css';
 import ReactMap from 'react-map-gl';
-import { authHeader } from './helper/auth-header.js'
+import { authHeader } from '../helper/auth-header.js'
 import { Row, Col, Divider, List, message, Avatar, Spin } from 'antd';
 import { CloseSquareFilled } from '@ant-design/icons';
 import reqwest from 'reqwest';
@@ -102,7 +102,6 @@ class Map extends React.Component {
         return (
             <Row gutter={[32, 8]}>
                 <Col span={12}>
-
                     <ReactMap
                         {...viewport}
                         mapboxApiAccessToken={accessToken}

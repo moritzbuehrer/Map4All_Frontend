@@ -4,7 +4,7 @@ import './index.css';
 import 'antd/dist/antd.css';
 import { ConfigProvider } from 'antd';
 import deDE from 'antd/es/locale/de_DE';
-import App from './App';
+import App from './pages/App';
 import * as serviceWorker from './serviceWorker';
 require('dotenv').config();
 
