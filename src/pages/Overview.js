@@ -1,11 +1,44 @@
 import React from 'react';
+import { Row, Col } from 'antd';
 import './Overview.css';
-import Map from '../components/Map';
+import MapSearch from '../components/Map';
+import Infobox from '../components/Infobox';
 
-const Overview = (props) => {
-    return (
-        <Map />
-    )
+
+class Overview extends React.Component {
+
+    state = {
+        currentLocation: {
+            postcode: "",
+            state: ""
+        }
+    }
+
+    setLocation = (postcode, state) => {
+        console.log(state);
+        this.setState({
+            currentLocation: {
+                postcode: postcode,
+                state: state
+            }
+        });
+    }
+
+    render() {
+        return (
+
+            //<Map />
+            <Row gutter={[32, 8]}>
+                <Col span={12}>
+                    <MapSearch setLocation={this.setLocation} />
+                </Col>
+                <Col span={12}>
+                    <Infobox currentLocation={this.state.currentLocation} />
+                </Col>
+            </Row>
+
+        )
+    };
 }
 
 export default Overview;

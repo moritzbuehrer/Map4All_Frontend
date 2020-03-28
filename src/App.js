@@ -3,17 +3,12 @@ import { Layout, Breadcrumb } from 'antd';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link,
-  Redirect,
-  useHistory,
-  useLocation
+  Route
 } from "react-router-dom";
-import Overview from './Overview';
+import Overview from './pages/Overview';
 import './App.css';
 
 const { Header, Content, Footer } = Layout;
-
 
 class App extends React.Component {
 
