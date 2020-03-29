@@ -1,8 +1,9 @@
 import React from 'react';
 import { Input } from 'antd';
 import './Map.css';
-import ReactMap, { WebMercatorViewport } from 'react-map-gl';
-
+import ReactMap, { WebMercatorViewport, Layer, Source } from 'react-map-gl';
+import geojsonData from './map/states_de.geojson';
+import {statesLayer, highlightLayer} from './map/mapLayers';
 
 const baseUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
 const accessToken = 'pk.eyJ1IjoibWJ1ZWhyZXIiLCJhIjoiY2s4Mjk5cGNxMGdwMTNmcnd4NjhvcnQ2dCJ9.ut6-Z7fPqms5_KwvVoFctw';
@@ -21,9 +22,9 @@ class Map extends React.Component {
                 height: "100vh",
                 zoom: 5.5
             },
-            currentState: "",
-            postCode: ""
+            stateFilter: ['in', 'NAME_1', ''],
         }
+
     }
 
     centerMapToState = (boundingBox, centerLatitude, centerLongitude) => {
@@ -41,7 +42,7 @@ class Map extends React.Component {
         })
     }
 
-    stateClick(e) {
+    stateClick = (e) => {
         if (e.type === "click" && e.lngLat) {
 
             fetch(baseUrl + e.lngLat[0] + "," + e.lngLat[1] + ".json?access_token=" + accessToken)
@@ -54,8 +55,6 @@ class Map extends React.Component {
                         var checkGermany = featureArray.find(feature => feature.text === "Germany");
 
                         if (checkGermany) {
-
-                            console.log(result);
                             var region = featureArray.find(feature => feature.place_type[0] === "region");
                             var regionName = region.text;
 
@@ -76,7 +75,8 @@ class Map extends React.Component {
         }
     }
 
-    onPostcodeSearch(postCode) {
+    // TODO!!! 
+    onPostcodeSearch = (postCode) => {
         fetch(baseUrl + postCode + ".json?access_token=" + accessToken)
             .then(res => res.json())
             .then(
@@ -90,6 +90,16 @@ class Map extends React.Component {
             )
     }
 
+    handleMouseHover = (e) => {
+        if (e.type === "pointermove" && e.features) {
+            var features = e.features
+            var stateLayer = features.find(feature => feature.layer.id === 'states')
+            if (stateLayer) {
+                this.setState({ stateFilter: ['in', 'NAME_1', stateLayer.properties.NAME_1] });
+            }
+        }
+    }
+
     render() {
         const { viewport } = this.state;
 
@@ -99,7 +109,14 @@ class Map extends React.Component {
                 mapboxApiAccessToken={accessToken}
                 onViewportChange={viewport => this.setState({ viewport })}
                 onClick={(e) => this.stateClick(e)}
+                onHover={(e) => this.handleMouseHover(e)}
                 mapStyle="mapbox://styles/mbuehrer/ck83jkn5x12gg1iqmis0qhvmm" >
+
+                <Source id="state_data_fill" type="geojson" data={geojsonData}>
+                    <Layer beforeId="waterway-label" {...statesLayer} />
+                    <Layer beforeId="waterway-label" {...highlightLayer} filter={this.state.stateFilter} />
+                </Source>
+
                 <Search
                     placeholder="Postleitzahl"
                     onSearch={postCode => this.onPostcodeSearch(postCode)}
