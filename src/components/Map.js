@@ -10,6 +10,19 @@ const BASE_URL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
 const ACCESS_TOKEN = 'pk.eyJ1IjoibWJ1ZWhyZXIiLCJhIjoiY2s4Mjk5cGNxMGdwMTNmcnd4NjhvcnQ2dCJ9.ut6-Z7fPqms5_KwvVoFctw';
 const MAP_STYLE = 'mapbox://styles/mbuehrer/ck83jkn5x12gg1iqmis0qhvmm';
 
+const markers = [{
+    id: 0,
+    type: 'infocenter',
+    latitude: 51.33391378558211,
+    longitude: 10.446947602070097,
+},
+{
+    id: 1,
+    type: 'testcenter',
+    latitude: 51.4,
+    longitude: 10.446947602070097,
+}]
+
 const { Search } = Input;
 
 class Map extends React.Component {
@@ -118,18 +131,7 @@ class Map extends React.Component {
                     <Layer {...highlightLayer} filter={stateFilter} />
                 </Source>
 
-                <Markers markers={[{
-                    id: 0,
-                    type: 'infocenter',
-                    latitude: 51.33391378558211,
-                    longitude: 10.446947602070097,
-                },
-                {
-                    id: 1,
-                    type: 'testcenter',
-                    latitude: 51.4,
-                    longitude: 10.446947602070097,
-                }]} />
+                {viewport.zoom < 5.8 ? '' : <Markers markers={markers} />}
 
                 <Search
                     placeholder="Postleitzahl"

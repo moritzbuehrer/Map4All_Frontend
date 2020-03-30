@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Breadcrumb } from 'antd';
+import { Layout, Breadcrumb, Menu } from 'antd';
 import {
   BrowserRouter as Router,
   Switch,
@@ -23,7 +23,14 @@ class App extends React.Component {
       <div className="App">
         <Layout className="layout">
           <Header>
-            <div id="title">Map4All</div>
+            
+            <span className="title">
+              <div>Map4All</div>
+            <Menu className="menu" mode="horizontal">
+              <Menu.Item>First</Menu.Item>
+            </Menu>
+            </span>
+ 
           </Header>
           <Content style={{ padding: '0 50px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
@@ -31,7 +38,6 @@ class App extends React.Component {
               <Breadcrumb.Item>Map4All</Breadcrumb.Item>
             </Breadcrumb>
             <div className="site-layout-content">
-
               <Router>
                 <Switch>
                   <Route path="/" component={Overview} />
