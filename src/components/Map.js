@@ -5,8 +5,9 @@ import ReactMap, { WebMercatorViewport, Layer, Source } from 'react-map-gl';
 import geojsonData from './map/states_de.geojson';
 import {statesLayer, highlightLayer} from './map/mapLayers';
 
-const baseUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
-const accessToken = 'pk.eyJ1IjoibWJ1ZWhyZXIiLCJhIjoiY2s4Mjk5cGNxMGdwMTNmcnd4NjhvcnQ2dCJ9.ut6-Z7fPqms5_KwvVoFctw';
+const BASE_URL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
+const ACCESS_TOKEN = 'pk.eyJ1IjoibWJ1ZWhyZXIiLCJhIjoiY2s4Mjk5cGNxMGdwMTNmcnd4NjhvcnQ2dCJ9.ut6-Z7fPqms5_KwvVoFctw';
+const MAP_STYLE = 'mapbox://styles/mbuehrer/ck83jkn5x12gg1iqmis0qhvmm';
 
 const { Search } = Input;
 
@@ -24,7 +25,6 @@ class Map extends React.Component {
             },
             stateFilter: ['in', 'NAME_1', ''],
         }
-
     }
 
     centerMapToState = (boundingBox, centerLatitude, centerLongitude) => {
@@ -45,7 +45,7 @@ class Map extends React.Component {
     stateClick = (e) => {
         if (e.type === "click" && e.lngLat) {
 
-            fetch(baseUrl + e.lngLat[0] + "," + e.lngLat[1] + ".json?access_token=" + accessToken)
+            fetch(BASE_URL + e.lngLat[0] + "," + e.lngLat[1] + ".json?access_token=" + ACCESS_TOKEN)
                 .then(res => res.json())
                 .then(
                     (result) => {
@@ -77,7 +77,7 @@ class Map extends React.Component {
 
     // TODO!!! 
     onPostcodeSearch = (postCode) => {
-        fetch(baseUrl + postCode + ".json?access_token=" + accessToken)
+        fetch(BASE_URL + postCode + ".json?access_token=" + ACCESS_TOKEN)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -101,20 +101,20 @@ class Map extends React.Component {
     }
 
     render() {
-        const { viewport } = this.state;
+        const { viewport, stateFilter } = this.state;
 
         return (
             <ReactMap
                 {...viewport}
-                mapboxApiAccessToken={accessToken}
+                mapboxApiAccessToken={ACCESS_TOKEN}
                 onViewportChange={viewport => this.setState({ viewport })}
                 onClick={(e) => this.stateClick(e)}
                 onHover={(e) => this.handleMouseHover(e)}
-                mapStyle="mapbox://styles/mbuehrer/ck83jkn5x12gg1iqmis0qhvmm" >
+                mapStyle={MAP_STYLE} >
 
                 <Source id="state_data_fill" type="geojson" data={geojsonData}>
-                    <Layer beforeId="waterway-label" {...statesLayer} />
-                    <Layer beforeId="waterway-label" {...highlightLayer} filter={this.state.stateFilter} />
+                    <Layer {...statesLayer} />
+                    <Layer {...highlightLayer} filter={stateFilter} />
                 </Source>
 
                 <Search
