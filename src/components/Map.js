@@ -123,6 +123,12 @@ class Map extends React.Component {
                     type: 'infocenter',
                     latitude: 51.33391378558211,
                     longitude: 10.446947602070097,
+                },
+                {
+                    id: 1,
+                    type: 'testcenter',
+                    latitude: 51.4,
+                    longitude: 10.446947602070097,
                 }]} />
 
                 <Search

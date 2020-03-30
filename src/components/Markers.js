@@ -1,6 +1,7 @@
 import React from 'react';
 import { Marker } from 'react-map-gl';
 import infoIcon from '../icons/infoIcon.svg';
+import testIcon from '../icons/testIcon.svg'
 import './Markers.css';
 
 class Markers extends React.Component {
@@ -11,7 +12,7 @@ class Markers extends React.Component {
                 case 'testcenter':
                     return (
                         <Marker key={marker.id} longitude={marker.longitude} latitude={marker.latitude} >
-                            <img src={infoIcon} alt='info' />
+                            <img src={testIcon} alt='Testcenter' />
                         </Marker>)
                 case 'infocenter':
                     return (
