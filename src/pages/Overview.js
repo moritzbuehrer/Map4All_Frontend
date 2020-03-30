@@ -15,7 +15,6 @@ class Overview extends React.Component {
     }
 
     setLocation = (postcode, state) => {
-        console.log(state);
         this.setState({
             currentLocation: {
                 postcode: postcode,

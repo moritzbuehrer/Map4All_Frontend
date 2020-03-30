@@ -2,8 +2,9 @@ import React from 'react';
 import { Input } from 'antd';
 import './Map.css';
 import ReactMap, { WebMercatorViewport, Layer, Source } from 'react-map-gl';
+import Markers from './Markers';
 import geojsonData from './map/states_de.geojson';
-import {statesLayer, highlightLayer} from './map/mapLayers';
+import { statesLayer, highlightLayer } from './map/mapLayers';
 
 const BASE_URL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
 const ACCESS_TOKEN = 'pk.eyJ1IjoibWJ1ZWhyZXIiLCJhIjoiY2s4Mjk5cGNxMGdwMTNmcnd4NjhvcnQ2dCJ9.ut6-Z7fPqms5_KwvVoFctw';
@@ -116,6 +117,13 @@ class Map extends React.Component {
                     <Layer {...statesLayer} />
                     <Layer {...highlightLayer} filter={stateFilter} />
                 </Source>
+
+                <Markers markers={[{
+                    id: 0,
+                    type: 'infocenter',
+                    latitude: 51.33391378558211,
+                    longitude: 10.446947602070097,
+                }]} />
 
                 <Search
                     placeholder="Postleitzahl"

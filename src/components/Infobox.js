@@ -5,6 +5,7 @@ import { Row, Col, Divider, List, message, Avatar, Spin } from 'antd';
 import { CloseSquareFilled } from '@ant-design/icons';
 import reqwest from 'reqwest';
 import InfiniteScroll from 'react-infinite-scroller';
+import infoIcon from '../icons/infoIcon.svg';
 
 const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
 const map4AllApi = 'https://map4all.appspot.com/'
@@ -103,7 +104,10 @@ class Infobox extends React.Component {
                             <CloseSquareFilled style={{ color: "#F4C5B5" }} /> Ausgangsbeschränkungen
                         </Col>
                         <Col>
-                            <CloseSquareFilled style={{ color: "#F4C5B5" }} /> Corona Testzentrum
+                            <img src={infoIcon} alt='Information center' /> Corona Informationszentrum
+
+                        </Col>
+                        <Col>
                             <CloseSquareFilled style={{ color: "#F4C5B5" }} /> Ausgangsbeschränkungen
                         </Col>
                     </div>
