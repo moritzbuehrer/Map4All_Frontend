@@ -1,6 +1,6 @@
 import React from 'react';
 import './Map.css';
-//import { authHeader } from '../helper/auth-header.js'
+import { authHeader } from '../helper/auth-header.js'
 import { Row, Col, Divider, List, message, Avatar, Spin } from 'antd';
 import { CloseSquareFilled } from '@ant-design/icons';
 import reqwest from 'reqwest';
