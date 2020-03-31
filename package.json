@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "Map4All",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -40,7 +40,7 @@
     ]
   },
   "engines": {
-    "node": "12",
+    "node": "13",
     "npm": "5.6.x"
   }
 }

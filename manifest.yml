@@ -1,0 +1,9 @@
+---
+applications:
+- name: map4all
+  path: /build
+  route: map4all
+  buildpack: staticfile_buildpack
+  memory: 128M
+
+

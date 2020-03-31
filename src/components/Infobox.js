@@ -11,6 +11,7 @@ import { Collapse } from 'antd';
 const { Panel } = Collapse;
 const map4AllApi = 'https://map4all.appspot.com'
 
+/*
 function updateState(state) {
     const requestOptions = {
         method: 'GET',
@@ -30,6 +31,7 @@ function updateState(state) {
             }
         )
 }
+*/
 
 class Infobox extends React.Component {
     constructor(props) {
@@ -46,7 +48,7 @@ class Infobox extends React.Component {
             loading: false,
             hasMore: true,
         }
-        updateState = updateState.bind(this)
+        //updateState = updateState.bind(this)
     }
 
     componentDidMount() {
@@ -76,7 +78,7 @@ class Infobox extends React.Component {
             <div>
                 <Row>
                     <Col>
-                        <div className="font-large">{this.props.currentLocation.state ? this.props.currentLocation.state : "Deutschland"}</div>
+                        <div className="font-large">{this.props.currentLocation.stateName ? this.props.currentLocation.stateName : "Deutschland"}</div>
                     </Col>
                 </Row>
                 <Row>
