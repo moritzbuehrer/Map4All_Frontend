@@ -1,0 +1,19 @@
+.font-small {
+    font-size: 12pt
+}
+
+.font-medium {
+    font-size: 14pt
+}
+
+.font-large {
+    font-size: 16pt
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.padding-left {
+    padding-left: 10px;
+}

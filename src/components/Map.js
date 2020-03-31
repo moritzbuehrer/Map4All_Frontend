@@ -75,8 +75,12 @@ class Map extends React.Component {
                             // Set map to state center
                             this.centerMapToState(region.bbox, region.center[1], region.center[0]);
 
+                            // Get clicked state id
+                            var clickedLayerFeature = e.features.find(feature => feature.source === "state_data_fill");
+                            var stateId = clickedLayerFeature.properties.ID_1;
+
                             // Set parent state information about postcode and state
-                            this.props.setLocation("", regionName);
+                            this.props.setLocation(stateId, regionName, "postcode");
 
                         }
                     },

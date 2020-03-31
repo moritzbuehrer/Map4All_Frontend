@@ -1,13 +1,14 @@
 import React from 'react';
-import './Map.css';
+import './Infobox.css';
 import { authHeader } from '../helper/auth-header.js'
 import { Row, Col, Divider, List, message, Avatar, Spin } from 'antd';
 import { CloseSquareFilled } from '@ant-design/icons';
 import reqwest from 'reqwest';
-import InfiniteScroll from 'react-infinite-scroller';
 import infoIcon from '../icons/infoIcon.svg';
 import testIcon from '../icons/testIcon.svg';
+import { Collapse } from 'antd';
 
+const { Panel } = Collapse;
 const map4AllApi = 'https://map4all.appspot.com'
 
 function updateState(state) {
@@ -16,7 +17,7 @@ function updateState(state) {
         headers: authHeader()
     };
 
-    fetch(map4AllApi + '/enactment/state/2', requestOptions)
+    fetch(map4AllApi + '/enactment/state/' + this.props.currentLocation.stateId, requestOptions)
         .then(res => res.json())
         .then(
             (result) => {
@@ -58,14 +59,14 @@ class Infobox extends React.Component {
 
     fetchData = callback => {
         reqwest({
-            url: map4AllApi + '/enactment/state/regulations/1',
+            url: map4AllApi + '/enactment/state/regulations/1',// + this.props.currentLocation.stateId,
             type: 'json',
             method: 'get',
             headers: authHeader(),
             contentType: 'application/json',
             success: res => {
-                console.log(Object.values(res))
-                callback(Object.values(res));
+                console.log(Object.entries(res));
+                callback(Object.entries(res));
             },
         });
     };
@@ -98,24 +99,38 @@ class Infobox extends React.Component {
                 <div className="infinite-container">
                     <List
                         dataSource={this.state.data}
-                        renderItem={item => (
-                            < List
-                                dataSource={item}
-                                renderItem={itemData => (
-                                    < List.Item >
-                                        <List.Item.Meta
-                                            avatar={
-                                                <Avatar icon={< CloseSquareFilled style={{ color: "#F4C5B5" }} />} />
-                                            }
-                                            title={"Maßnahmenklasse: " + itemData.regulationClassId}
-                                            description={itemData.info}
-                                        />
-                                        <div>Ab dem: {itemData.specDate}</div>
-                                    </List.Item>
-                                )}
-                            >
-                            </List>
-                        )}
+                        renderItem={(item, index) => {
+                            return (
+                                <List dataSource={item}
+                                    renderItem={(regulationItem, index) => {
+                                        if (index === 1) {
+                                            return (<List
+                                                dataSource={regulationItem}
+                                                renderItem={(itemData) => {
+                                                    return (
+                                                        < List.Item >
+                                                            <List.Item.Meta
+                                                                title={itemData.info}
+                                                            />
+                                                            <div>Ab dem: {itemData.specDate}</div>
+                                                        </List.Item>)
+                                                }}>
+                                            </List>)
+                                        } else {
+                                            return (
+                                                <div>
+                                                    <Divider />
+                                                    <span>{<Avatar icon={< CloseSquareFilled style={{ color: "#8B0000" }} />} />}</span>
+                                                    <span className="font-medium font-bold padding-left">{regulationItem}</span>
+                                                    <Divider />
+                                                </div>
+                                            )
+                                        }
+                                    }}
+                                >
+                                </List>
+                            )
+                        }}
                     >
                     </List>
                 </div >
