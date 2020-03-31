@@ -144,8 +144,6 @@ function updateState(state) {
         )
 }
 
-const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
-
 class Infobox extends React.Component {
     constructor(props) {
         super(props);
@@ -167,16 +165,17 @@ class Infobox extends React.Component {
     componentDidMount() {
         this.fetchData(res => {
             this.setState({
-                data: res.results,
+                data: res,
             });
         });
     }
 
     fetchData = callback => {
         reqwest({
-            url: fakeDataUrl,
+            url: map4AllApi + "/enactment/state/regulations/1",
             type: 'json',
             method: 'get',
+            headers: authHeader(),
             contentType: 'application/json',
             success: res => {
                 callback(res);
@@ -211,11 +210,11 @@ class Infobox extends React.Component {
             <div>
                 <Row>
                     <Col>
-                        <div class="font-large">Übersicht Karte</div>
+                        <div className="font-large">Übersicht Karte</div>
                     </Col>
                 </Row>
                 <Row>
-                    <div class="font-medium font-bold">
+                    <div className="font-medium font-bold">
                         <Col>
                             <CloseSquareFilled style={{ color: "#F4C5B5" }} /> Ausgangsbeschränkungen
                         </Col>
@@ -237,15 +236,18 @@ class Infobox extends React.Component {
                         <List
                             dataSource={this.state.data}
                             renderItem={item => (
-                                <List.Item key={item.id}>
-                                    <List.Item.Meta
-                                        avatar={
-                                            <Avatar icon={< CloseSquareFilled style={{ color: "#F4C5B5" }} />} />
-                                        }
-                                        title={item.name.last}
-                                        description={item.email}
-                                    />
-                                    <div>Content</div>
+                                <List.Item key={item}>
+                                    <List dataSource={item}
+                                        renderItem={innerItem => (
+                                            <List.Item.Meta
+                                                avatar={
+                                                    <Avatar icon={< CloseSquareFilled style={{ color: "#F4C5B5" }} />} />
+                                                }
+                                                title={innerItem.info}
+                                                description={innerItem.specDate}
+                                            />
+                                        )}>
+                                    </List>
                                 </List.Item>
                             )}
                         >
