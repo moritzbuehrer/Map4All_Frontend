@@ -1,14 +1,17 @@
 import React from 'react';
 import { Input } from 'antd';
 import './Map.css';
+import { authHeader } from '../helper/auth-header.js'
 import ReactMap, { WebMercatorViewport, Layer, Source } from 'react-map-gl';
 import Markers from './Markers';
 import geojsonData from './map/states_de.geojson';
 import { statesLayer, highlightLayer } from './map/mapLayers';
+import reqwest from 'reqwest';
 
 const BASE_URL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
 const ACCESS_TOKEN = 'pk.eyJ1IjoibWJ1ZWhyZXIiLCJhIjoiY2s4Mjk5cGNxMGdwMTNmcnd4NjhvcnQ2dCJ9.ut6-Z7fPqms5_KwvVoFctw';
 const MAP_STYLE = 'mapbox://styles/mbuehrer/ck83jkn5x12gg1iqmis0qhvmm';
+const BACKEND_API = 'https://map4all.appspot.com'
 
 const markers = [{
     id: 0,
@@ -38,11 +41,11 @@ class Map extends React.Component {
                 zoom: 5.5
             },
             stateFilter: ['in', 'NAME_1', ''],
+            stateId: ""
         }
     }
 
     centerMapToState = (boundingBox, centerLatitude, centerLongitude) => {
-
         const newViewport = new WebMercatorViewport({ width: this.state.viewport.width, height: this.state.viewport.height })
             .fitBounds([[boundingBox[0], boundingBox[1]], [boundingBox[2], boundingBox[3]]]);
 
@@ -56,6 +59,19 @@ class Map extends React.Component {
         })
     }
 
+    fetchData = (callback) => {
+        reqwest({
+            url: BACKEND_API + '/enactment/state/regulations/' + this.state.stateId,
+            type: 'json',
+            method: 'get',
+            headers: authHeader(),
+            contentType: 'application/json',
+            success: res => {
+                callback(Object.entries(res));
+            },
+        });
+    };
+
     stateClick = (e) => {
         if (e.type === "click" && e.lngLat) {
 
@@ -63,7 +79,6 @@ class Map extends React.Component {
                 .then(res => res.json())
                 .then(
                     (result) => {
-
                         // Analyze result object and get state name
                         var featureArray = result.features;
                         var checkGermany = featureArray.find(feature => feature.text === "Germany");
@@ -74,7 +89,7 @@ class Map extends React.Component {
 
                             // Set map to state center
                             this.centerMapToState(region.bbox, region.center[1], region.center[0]);
-                            
+
                             // Get clicked state id
                             var clickedLayerFeature = e.features.find(feature => feature.source === "state_data_fill");
                             var stateId = clickedLayerFeature.properties.ID_1;
@@ -86,6 +101,13 @@ class Map extends React.Component {
                             // Set parent state information about postcode and state
                             this.props.setLocation(stateId, regionName, "postcode");
 
+                            // set stateId as state
+                            this.state.stateId = stateId;
+
+                            // Fetch regulation information
+                            this.fetchData(res => {
+                                this.props.setRegulationData(res);
+                            });
                         }
                     },
                     (error) => {

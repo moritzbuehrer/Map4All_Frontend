@@ -12,11 +12,11 @@ class Overview extends React.Component {
             stateId: "",
             stateName: "",
             postcode: "",
-
-        }
+        },
+        regulationData: []
     }
 
-    setLocation = (stateId, stateName, postcode ) => {
+    setLocation = (stateId, stateName, postcode) => {
         this.setState({
             currentLocation: {
                 stateId: stateId,
@@ -26,14 +26,20 @@ class Overview extends React.Component {
         });
     }
 
+    setRegulationData = (regulationData) => {
+        this.setState({
+            regulationData: regulationData
+        });
+    }
+
     render() {
         return (
             <Row gutter={[32, 8]}>
                 <Col span={12}>
-                    <MapSearch setLocation={this.setLocation} />
+                    <MapSearch setLocation={this.setLocation} setRegulationData={this.setRegulationData} />
                 </Col>
                 <Col span={12}>
-                    <Infobox currentLocation={this.state.currentLocation} />
+                    <Infobox currentLocation={this.state.currentLocation} regulationData={this.state.regulationData} />
                 </Col>
             </Row>
         )
