@@ -9,24 +9,25 @@ class Overview extends React.Component {
 
     state = {
         currentLocation: {
+            stateId: "",
+            stateName: "",
             postcode: "",
-            state: ""
+
         }
     }
 
-    setLocation = (postcode, state) => {
+    setLocation = (stateId, stateName, postcode ) => {
         this.setState({
             currentLocation: {
-                postcode: postcode,
-                state: state
+                stateId: stateId,
+                stateName: stateName,
+                postcode: postcode
             }
         });
     }
 
     render() {
         return (
-
-            //<Map />
             <Row gutter={[32, 8]}>
                 <Col span={12}>
                     <MapSearch setLocation={this.setLocation} />
@@ -35,7 +36,6 @@ class Overview extends React.Component {
                     <Infobox currentLocation={this.state.currentLocation} />
                 </Col>
             </Row>
-
         )
     };
 }

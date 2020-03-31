@@ -26,9 +26,6 @@ class App extends React.Component {
             
             <span className="title">
               <div>Map4All</div>
-            <Menu className="menu" mode="horizontal">
-              <Menu.Item>First</Menu.Item>
-            </Menu>
             </span>
  
           </Header>

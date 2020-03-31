@@ -1,6 +1,6 @@
 import React from 'react';
 import './Map.css';
-import { authHeader } from '../helper/auth-header.js'
+//import { authHeader } from '../helper/auth-header.js'
 import { Row, Col, Divider, List, message, Avatar, Spin } from 'antd';
 import { CloseSquareFilled } from '@ant-design/icons';
 import reqwest from 'reqwest';
@@ -10,8 +10,9 @@ import testIcon from '../icons/testIcon.svg';
 
 
 const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
-const map4AllApi = 'https://map4all.appspot.com/'
+//const map4AllApi = 'https://map4all.appspot.com/'
 
+/*
 function updateState(state) {
     const requestOptions = {
         method: 'GET',
@@ -31,6 +32,7 @@ function updateState(state) {
             }
         )
 }
+*/
 
 class Infobox extends React.Component {
     constructor(props) {
@@ -47,7 +49,7 @@ class Infobox extends React.Component {
             loading: false,
             hasMore: true,
         }
-        updateState = updateState.bind(this)
+        //updateState = updateState.bind(this)
     }
 
     componentDidMount() {
@@ -97,7 +99,7 @@ class Infobox extends React.Component {
             <div>
                 <Row>
                     <Col>
-                        <div className="font-large">{this.props.currentLocation.state ? this.props.currentLocation.state : "Deutschland"}</div>
+                        <div className="font-large">{this.props.currentLocation.stateName ? this.props.currentLocation.stateName : "Deutschland"}</div>
                     </Col>
                 </Row>
                 <Row>
