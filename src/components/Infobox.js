@@ -8,9 +8,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import infoIcon from '../icons/infoIcon.svg';
 import testIcon from '../icons/testIcon.svg';
 
-
-const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
-//const map4AllApi = 'https://map4all.appspot.com/'
+const map4AllApi = 'https://map4all.appspot.com'
 
 /*
 function updateState(state) {
@@ -19,7 +17,7 @@ function updateState(state) {
         headers: authHeader()
     };
 
-    fetch(map4AllApi + 'enactment/state/2', requestOptions)
+    fetch(map4AllApi + '/enactment/state/2', requestOptions)
         .then(res => res.json())
         .then(
             (result) => {
@@ -55,42 +53,22 @@ class Infobox extends React.Component {
     componentDidMount() {
         this.fetchData(res => {
             this.setState({
-                data: res.results,
+                data: res,
             });
         });
     }
 
     fetchData = callback => {
         reqwest({
-            url: fakeDataUrl,
+            url: map4AllApi + '/enactment/state/regulations/1',
             type: 'json',
             method: 'get',
+            headers: authHeader(),
             contentType: 'application/json',
             success: res => {
-                callback(res);
+                console.log(Object.values(res))
+                callback(Object.values(res));
             },
-        });
-    };
-
-    handleInfiniteOnLoad = () => {
-        let { data } = this.state;
-        this.setState({
-            loading: true,
-        });
-        if (data.length > 14) {
-            message.warning('Infinite List loaded all');
-            this.setState({
-                hasMore: false,
-                loading: false,
-            });
-            return;
-        }
-        this.fetchData(res => {
-            data = data.concat(res.results);
-            this.setState({
-                data,
-                loading: false,
-            });
         });
     };
 
@@ -120,36 +98,29 @@ class Infobox extends React.Component {
                 </Row>
                 <Divider />
                 <div className="infinite-container">
-                    <InfiniteScroll
-                        initialLoad={false}
-                        pageStart={0}
-                        loadMore={this.handleInfiniteOnLoad}
-                        hasMore={!this.state.loading && this.state.hasMore}
-                        useWindow={false}
+                    <List
+                        dataSource={this.state.data}
+                        renderItem={item => (
+                            < List
+                                dataSource={item}
+                                renderItem={itemData => (
+                                    < List.Item >
+                                        <List.Item.Meta
+                                            avatar={
+                                                <Avatar icon={< CloseSquareFilled style={{ color: "#F4C5B5" }} />} />
+                                            }
+                                            title={"Maßnahmenklasse: " + itemData.regulationClassId}
+                                            description={itemData.info}
+                                        />
+                                        <div>Ab dem: {itemData.specDate}</div>
+                                    </List.Item>
+                                )}
+                            >
+                            </List>
+                        )}
                     >
-                        <List
-                            dataSource={this.state.data}
-                            renderItem={item => (
-                                <List.Item key={item.id}>
-                                    <List.Item.Meta
-                                        avatar={
-                                            <Avatar icon={< CloseSquareFilled style={{ color: "#F4C5B5" }} />} />
-                                        }
-                                        title={item.name.last}
-                                        description={item.email}
-                                    />
-                                    <div>Content</div>
-                                </List.Item>
-                            )}
-                        >
-                            {this.state.loading && this.state.hasMore && (
-                                <div className="loading-container">
-                                    <Spin />
-                                </div>
-                            )}
-                        </List>
-                    </InfiniteScroll>
-                </div>
+                    </List>
+                </div >
             </div >
         )
     };
