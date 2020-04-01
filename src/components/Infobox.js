@@ -5,6 +5,11 @@ import { CloseSquareFilled } from '@ant-design/icons';
 import infoIcon from '../icons/infoIcon.svg';
 import testIcon from '../icons/testIcon.svg';
 
+// TODO
+// - Panels with Box instead of Box only
+// - Info header for state
+// - Icons include
+// - Tabs for Testing Stations etc.
 class Infobox extends React.Component {
     constructor(props) {
         super(props);

@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Overview from './pages/Overview';
 import './App.css';
+import logo from './resources/logo.png'
 
 const { Header, Content, Footer } = Layout;
 
@@ -23,16 +24,17 @@ class App extends React.Component {
       <div className="App">
         <Layout className="layout">
           <Header>
-            
-            <span className="title">
-              <div>Map4All</div>
-            </span>
- 
+            <img src={logo} className="logo" />
+            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+              <Menu.Item key="1">Karte</Menu.Item>
+              <Menu.Item key="2">Kontakt</Menu.Item>
+              <Menu.Item key="3">Impressum</Menu.Item>
+            </Menu>
           </Header>
           <Content style={{ padding: '0 50px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>Start</Breadcrumb.Item>
-              <Breadcrumb.Item>Map4All</Breadcrumb.Item>
+              <Breadcrumb.Item>WoGiltWas?</Breadcrumb.Item>
             </Breadcrumb>
             <div className="site-layout-content">
               <Router>
@@ -42,7 +44,7 @@ class App extends React.Component {
               </Router>
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Map4All ©2020</Footer>
+          <Footer style={{ textAlign: 'center' }}>WoGiltWas? ©2020</Footer>
         </Layout>
       </div>
     )

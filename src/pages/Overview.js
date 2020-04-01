@@ -1,12 +1,10 @@
 import React from 'react';
-import { Row, Col } from 'antd';
 import './Overview.css';
 import MapSearch from '../components/Map';
 import Infobox from '../components/Infobox';
-
+import { Row, Col } from 'antd';
 
 class Overview extends React.Component {
-
     state = {
         currentLocation: {
             stateId: "",
