@@ -3,9 +3,12 @@ import { Layout, Breadcrumb, Menu } from 'antd';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
 import Overview from './pages/Overview';
+import Contact from './pages/Contact';
+import Impressum from './pages/Impressum';
 import './App.css';
 import logo from './resources/logo.png'
 
@@ -19,16 +22,15 @@ class App extends React.Component {
   }
 
   render() {
-
     return (
       <div className="App">
         <Layout className="layout">
           <Header>
             <img src={logo} className="logo" />
-            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-              <Menu.Item key="1">Karte</Menu.Item>
-              <Menu.Item key="2">Kontakt</Menu.Item>
-              <Menu.Item key="3">Impressum</Menu.Item>
+            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['/map']}>
+              <Menu.Item key="/map"><a href="/map">Karte</a></Menu.Item>
+              <Menu.Item key="/contact"><a href="/contact">Kontakt</a></Menu.Item>
+              <Menu.Item key="/impressum"><a href="/impressum">Impressum</a></Menu.Item>
             </Menu>
           </Header>
           <Content style={{ padding: '0 50px' }}>
@@ -39,7 +41,10 @@ class App extends React.Component {
             <div className="site-layout-content">
               <Router>
                 <Switch>
-                  <Route path="/" component={Overview} />
+                  <Redirect exact from="/" to="/map" />
+                  <Route path="/map" component={Overview} />
+                  <Route path="/contact" component={Contact} />
+                  <Route path="/impressum" component={Impressum} />
                 </Switch>
               </Router>
             </div>
