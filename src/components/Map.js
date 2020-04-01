@@ -2,7 +2,7 @@ import React from 'react';
 import { Input } from 'antd';
 import './Map.css';
 import { authHeader } from '../helper/auth-header.js'
-import ReactMap, { WebMercatorViewport, Layer, Source } from 'react-map-gl';
+import ReactMap, { WebMercatorViewport, Layer, Source, FlyToInterpolator } from 'react-map-gl';
 import Markers from './Markers';
 import geojsonData from './map/states_de.geojson';
 import { statesLayer, highlightLayer } from './map/mapLayers';
@@ -38,7 +38,10 @@ class Map extends React.Component {
                 longitude: 10.446947602070097,
                 width: "100%",
                 height: "100vh",
-                zoom: 5.5
+                zoom: 5.5,
+                transitionDuration: null,
+                transitionInterpolator: null
+
             },
             stateFilter: ['in', 'NAME_1', ''],
             stateId: ""
@@ -54,7 +57,9 @@ class Map extends React.Component {
                 ...this.state.viewport,
                 latitude: centerLatitude,
                 longitude: centerLongitude,
-                zoom: newViewport.zoom
+                zoom: newViewport.zoom,
+                transitionDuration: 1000,
+                transitionInterpolator: new FlyToInterpolator()
             }
         })
     }
@@ -140,7 +145,7 @@ class Map extends React.Component {
             var stateLayer = features.find(feature => feature.layer.id === 'states')
             if (stateLayer) {
                 this.setState({ stateFilter: ['in', 'NAME_1', stateLayer.properties.NAME_1] });
-            }else{
+            } else {
                 this.setState({ stateFilter: ['in', 'NAME_1', ''] });
             }
         }
