@@ -1,8 +1,8 @@
 ---
 applications:
-- name: map4all
+- name: wogiltwas
   path: /build
-  route: map4all
+  route: wogiltwas
   buildpack: staticfile_buildpack
   memory: 128M
 

@@ -140,6 +140,8 @@ class Map extends React.Component {
             var stateLayer = features.find(feature => feature.layer.id === 'states')
             if (stateLayer) {
                 this.setState({ stateFilter: ['in', 'NAME_1', stateLayer.properties.NAME_1] });
+            }else{
+                this.setState({ stateFilter: ['in', 'NAME_1', ''] });
             }
         }
     }

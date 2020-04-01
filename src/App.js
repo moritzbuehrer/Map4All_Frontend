@@ -4,7 +4,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
+  Link
 } from "react-router-dom";
 import Overview from './pages/Overview';
 import Contact from './pages/Contact';
@@ -24,33 +25,35 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Layout className="layout">
-          <Header>
-            <img src={logo} className="logo" />
-            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['/map']}>
-              <Menu.Item key="/map"><a href="/map">Karte</a></Menu.Item>
-              <Menu.Item key="/contact"><a href="/contact">Kontakt</a></Menu.Item>
-              <Menu.Item key="/impressum"><a href="/impressum">Impressum</a></Menu.Item>
-            </Menu>
-          </Header>
-          <Content style={{ padding: '0 50px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Start</Breadcrumb.Item>
-              <Breadcrumb.Item>WoGiltWas?</Breadcrumb.Item>
-            </Breadcrumb>
-            <div className="site-layout-content">
-              <Router>
+        <Router>
+          <Layout className="layout">
+            <Header>
+              <img src={logo} className="logo" />
+              <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['/map']}>
+                <Menu.Item key="/map"><Link to="/map">Karte</Link></Menu.Item>
+                <Menu.Item key="/contact"><Link to="/contact">Kontakt</Link></Menu.Item>
+                <Menu.Item key="/impressum"><Link to="/impressum">Impressum</Link></Menu.Item>
+              </Menu>
+            </Header>
+            <Content style={{ padding: '0 50px' }}>
+              <Breadcrumb style={{ margin: '16px 0' }}>
+                <Breadcrumb.Item>Start</Breadcrumb.Item>
+                <Breadcrumb.Item>WoGiltWas?</Breadcrumb.Item>
+              </Breadcrumb>
+              <div className="site-layout-content">
+
                 <Switch>
                   <Redirect exact from="/" to="/map" />
                   <Route path="/map" component={Overview} />
                   <Route path="/contact" component={Contact} />
                   <Route path="/impressum" component={Impressum} />
                 </Switch>
-              </Router>
-            </div>
-          </Content>
-          <Footer style={{ textAlign: 'center' }}>WoGiltWas? ©2020</Footer>
-        </Layout>
+
+              </div>
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>WoGiltWas? ©2020</Footer>
+          </Layout>
+        </Router>
       </div>
     )
   };
