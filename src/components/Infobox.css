@@ -18,10 +18,11 @@
     padding-left: 10px;
 }
 
-.infinite-container {
-    border: 1px solid #e8e8e8;
-    border-radius: 4px;
+.regulation-list {
     overflow: auto;
-    padding: 8px 24px;
-    height: 700px;
+    max-height: 170px;
+}
+
+.regulation-element {
+    padding: 0px !important;
 }

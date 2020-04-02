@@ -37,7 +37,7 @@ class Map extends React.Component {
                 latitude: 51.33391378558211,
                 longitude: 10.446947602070097,
                 width: "100%",
-                height: "100vh",
+                height: "80vh",
                 zoom: 5.5,
                 transitionDuration: null,
                 transitionInterpolator: null

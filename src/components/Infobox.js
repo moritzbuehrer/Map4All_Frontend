@@ -1,15 +1,44 @@
 import React from 'react';
 import './Infobox.css';
-import { Row, Col, Divider, List, message, Avatar, Spin } from 'antd';
-import { CloseSquareFilled } from '@ant-design/icons';
-import infoIcon from '../icons/infoIcon.svg';
-import testIcon from '../icons/testIcon.svg';
+import { Row, Col, Divider, List, Collapse } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import catRed from '../icons/cat-red.svg';
+import legRed from '../icons/leg-red.svg';
+import legGreen from '../icons/leg-green.svg';
+import detsRed from '../icons/dets-red.svg';
+import detsGreen from '../icons/dets-green.svg';
 
-// TODO
-// - Panels with Box instead of Box only
-// - Info header for state
-// - Icons include
-// - Tabs for Testing Stations etc.
+const { Panel } = Collapse;
+
+const genHeader = (header) => (
+    <span><img src={catRed} alt='Gesperrt' /><span className="font-medium font-bold padding-left">{header}</span></span>
+);
+
+const genCollapse = (regulationData) => {
+    let catIndex = 0;
+    let panels = [];
+
+    regulationData.forEach((item, index) => {
+        catIndex = index;
+        panels.push(<Panel header={genHeader(item[0])} key={catIndex}>
+            <List className="regulation-list"
+                dataSource={item[1]}
+                renderItem={(itemData) => {
+                    return (
+                        < List.Item className="regulation-element">
+                            <List.Item.Meta
+                                title={itemData.info}
+                            />
+                        </List.Item>
+                    )
+                }}>
+            </List>
+        </Panel>);
+    });
+    console.log(panels);
+    return panels;
+}
+
 class Infobox extends React.Component {
     constructor(props) {
         super(props);
@@ -20,65 +49,38 @@ class Infobox extends React.Component {
             <div>
                 <Row>
                     <Col>
-                        <div className="font-large">{this.props.currentLocation.stateName ? this.props.currentLocation.stateName : "Deutschland"}</div>
+                        <div className="font-medium">Übersicht Karte</div>
                     </Col>
                 </Row>
                 <Row>
                     <div className="font-medium font-bold">
                         <Col>
-                            <CloseSquareFilled style={{ color: "#F4C5B5" }} /> Ausgangsbeschränkungen
-                        </Col>
-                        <Col>
-                            <img src={infoIcon} alt='Informationcenter' /> Corona Informationszentrum
-                        </Col>
-                        <Col>
-                            <img src={testIcon} alt='Testcenter' /> Corona Testzentrum
-                        </Col>
-                        <Col>
-                            <CloseSquareFilled style={{ color: "#F4C5B5" }} /> Ausgangsbeschränkungen
+                            <img src={detsRed} alt='Informationcenter' /> Ausgangsbeschränkungen
                         </Col>
                     </div>
                 </Row>
                 <Divider />
-                <div className="infinite-container">
-                    <List
-                        dataSource={this.props.regulationData}
-                        renderItem={(item) => {
-                            return (
-                                <List dataSource={item}
-                                    renderItem={(regulationItem, index) => {
-                                        if (index === 1) {
-                                            return (
-                                                <List
-                                                    dataSource={regulationItem}
-                                                    renderItem={(itemData) => {
-                                                        return (
-                                                            < List.Item >
-                                                                <List.Item.Meta
-                                                                    title={itemData.info}
-                                                                />
-                                                                <div>Ab dem: {itemData.specDate}</div>
-                                                            </List.Item>)
-                                                    }}>
-                                                </List>)
-                                        } else {
-                                            return (
-                                                <div>
-                                                    <Divider />
-                                                    <span>{<CloseSquareFilled className="font-large" style={{ color: "#8B0000" }} />}</span>
-                                                    <span className="font-medium font-bold padding-left">{regulationItem}</span>
-                                                    <Divider />
-                                                </div>
-                                            )
-                                        }
-                                    }}
-                                >
-                                </List>
-                            )
-                        }}
-                    >
-                    </List>
-                </div>
+                <Row>
+                    <Col>
+                        <img src={legGreen} alt='Geöffnet' /> Geöffnet &ensp;
+                        <img src={legRed} alt='Geschlossen' /> Geschlossen
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <div className="font-medium font-bold">Maßnahmen</div>
+                        <div className="font-large font-bold">{this.props.currentLocation.stateName ? this.props.currentLocation.stateName : "Deutschland"}</div>
+                    </Col>
+                </Row>
+                <div>
+                    <Collapse accordion
+                        expandIconPosition="right"
+                        bordered={false}
+                        expandIcon={({ isActive }) => <DownOutlined rotate={isActive ? 180 : 0} />}>
+                        {genCollapse(this.props.regulationData)}
+                    </Collapse>
+
+                </div >
             </div >
         )
     };
