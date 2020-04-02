@@ -20,7 +20,7 @@
 
 .regulation-list {
     overflow: auto;
-    max-height: 220px;
+    max-height: 180px;
 }
 
 .regulation-element {
