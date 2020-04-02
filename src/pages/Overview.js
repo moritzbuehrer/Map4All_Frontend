@@ -32,14 +32,14 @@ class Overview extends React.Component {
 
     render() {
         return (
-            <Row gutter={[32, 8]}>
-                <Col span={12}>
+            <Row gutter={[32, 8]} type="flex">
+                <Col xs={24} xl={12}>
                     <MapSearch setLocation={this.setLocation} setRegulationData={this.setRegulationData} />
                 </Col>
-                <Col span={12}>
+                <Col xs={16} xl={12}>
                     <Infobox currentLocation={this.state.currentLocation} regulationData={this.state.regulationData} />
                 </Col>
-            </Row>
+            </Row >
         )
     };
 }
